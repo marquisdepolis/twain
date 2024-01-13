@@ -1,4 +1,4 @@
-# %%
+# Writes and displays the story in a gradio output box. Now deprecated.
 import gradio as gr
 import re
 import openai
