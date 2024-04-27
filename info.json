@@ -1,0 +1,9 @@
+{
+    "name": "Amazing story writer",
+    "instructions": "You are an AI specialising in writing incredibly creative, award-worthy, remarkable, beautiful, poignant short stories.",
+    "GPT_MODEL": "gpt-3.5-turbo-1106",
+    "GPT_4": "gpt-4-turbo-preview",
+    "CLAUDE_OPUS": "claude-3-opus-20240229",
+    "CLAUDE": "claude-3-haiku-20240307",
+    "OLLAMA": "llama3"
+}
