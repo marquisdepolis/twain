@@ -9,6 +9,15 @@ load_dotenv()
 from utils.retry import retry_except
 from tenacity import retry, stop_after_attempt, wait_fixed
 
+info_json_path = os.path.join(os.path.dirname(__file__), '..', 'info.json')
+with open('info.json', 'r') as file:
+    data = json.load(file)
+
+instructions = data.get('instructions')
+name = data.get('name')
+CLAUDE = data.get('CLAUDE_OPUS')
+OLLAMA = data.get('OLLAMA')
+
 @retry(stop=stop_after_attempt(3), wait=wait_fixed(2))
 @retry_except(exceptions_to_catch=(IndexError, ZeroDivisionError), tries=3, delay=2)
 def llm_call_gpt(input, GPT):
@@ -18,7 +27,7 @@ def llm_call_gpt(input, GPT):
     response = client.chat.completions.create(
         model=GPT,
         messages=[
-            {"role": "system", "content": """You are an AI designed to solve word puzzles. You are brilliant and clever."""},
+            {"role": "system", "content": f"""You are a brilliant AI. {instructions}"""},
             {"role": "user", "content": f"{input}"}
         ]
     )
@@ -31,7 +40,7 @@ def llm_call_gpt_assistant(input, INSTRUCTION, GPT):
     client.api_key = os.getenv('OPENAI_API_KEY')
 
     assistant = client.beta.assistants.create(
-    name="PoY Evaluator to read DB",
+    name=f"{name}",
     instructions=INSTRUCTION,
     model=GPT
     )
@@ -57,7 +66,7 @@ def llm_call_gpt_json(input, GPT):
     response = client.chat.completions.create(
         model=GPT,
         messages=[
-            {"role": "system", "content": """You are an AI designed to solve word puzzles. You are brilliant and clever."""},
+            {"role": "system", "content": f"""You are a brilliant AI. {instructions}"""},
             {"role": "user", "content": f"Respond in JSON. {input}"}
         ],
         response_format={ "type": "json_object" }
@@ -74,7 +83,7 @@ def llm_call_claude(input, LLM):
         messages=[
             {"role": "user", "content": f"{input}"}
         ],
-        system="You are an AI designed to solve word puzzles. You are brilliant and clever.",
+        system=f"""You are a brilliant AI. {instructions}""",
         max_tokens=4096,
     )
     return response.content[0].text
