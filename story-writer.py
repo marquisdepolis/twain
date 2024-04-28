@@ -49,7 +49,7 @@ def write_chapters(chars, storyline_parts):
         for index, part in enumerate(storyline_parts):
             print(f"{index}: {part}")
         for index, chapter_summary in enumerate(storyline_parts):
-            messages = f"For this chapter, write the story and dialogue to explore it fully and bring the chapter to life. {chapter_summary}. The key characters for the overall story are {chars}. Start with 'Chapter' ensuring the right index number, and give it a title. No extra yapping, only do the task assigned with no other explanation or preamble."
+            messages = f"For this chapter, write the story and dialogue to explore it fully and bring the chapter to life. {chapter_summary}. The key characters for the overall story are {chars}. Start with a title. No extra yapping, only do the task assigned with no other explanation or preamble."
             chapter_content = get_llm_response(messages)
             if isinstance(chapter_content, list):
                 chapter_content = chapter_content[0]
