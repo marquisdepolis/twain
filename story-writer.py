@@ -35,7 +35,7 @@ def get_chars(input):
     return chars
 
 def get_story(input, chars):
-    messages = f"From the given prompt, generate a 6-part structure for a story, where each part has a 1 sentence description of what exactly happens in that part. Please start each part with Part X: {input}. The key characters for the overall story are {chars}. No extra yapping, only do the task assigned with no explanation otherwise."
+    messages = f"""From the given story prompt, {input}, generate a 6-part structure for a story, where each part has a 1 sentence description of what exactly happens in that part. Please start each part with "Part X". The key characters for the overall story are {chars} which you can use as needed. No extra yapping, only do the task assigned with no explanation otherwise."""
     response = get_llm_response(messages)
     print(f"The structure of the story as returned: \n {response}")
     if isinstance(response, list) and len(response) == 1:
@@ -49,7 +49,7 @@ def write_chapters(chars, storyline_parts):
         for index, part in enumerate(storyline_parts):
             print(f"{index}: {part}")
         for index, chapter_summary in enumerate(storyline_parts):
-            messages = f"For this chapter, write the story and dialogue to explore it fully and bring the chapter to life. {chapter_summary}. The key characters for the overall story are {chars}. No extra yapping, only do the task assigned with no other explanation or preamble."
+            messages = f"For this chapter, write the story and dialogue to explore it fully and bring the chapter to life. {chapter_summary}. The key characters for the overall story are {chars}. Start with 'Chapter' ensuring the right index number, and give it a title. No extra yapping, only do the task assigned with no other explanation or preamble."
             chapter_content = get_llm_response(messages)
             if isinstance(chapter_content, list):
                 chapter_content = chapter_content[0]
